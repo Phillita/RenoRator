@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>RenoRator</title>
+		<link rel="stylesheet" type="text/css" href="/public/css/styles.css" />
+        <meta name="viewport" content="width=device-width" />
+	</head>
+	<body>
+		<div class="container">
+			<div class="header">
+				<div class="content">
+					<div class="logo">
+						<img src="/public/img/logo.png" />
+					</div>
+			  		<div id='cssmenu'>
+						<ul>
+					   		<li class='active '><a href='#'><span>Menu 1</span></a></li>
+					   		<li class='has-sub '><a href='#'><span>Menu 2</span></a>
+					      		<ul>
+					         		<li><a href='#'><span>Sub Menu 1</span></a></li>
+					         		<li><a href='#'><span>Sub Menu 2</span></a></li>
+					      		</ul>
+					   		</li>
+					   		<li><a href='#'><span>Menu 3</span></a></li>
+					   		<li><a href='#'><span>Menu 4</span></a></li>
+						</ul>
+					</div>
+				</div>
+		   </div>
+		   <div class="body">
+                @RenderBody();
+           </div>
+		   <div class="footer">
+				<div class="content">
+					<h4>&copy; RenoRator.com - 2012 - All rights reserved</h4>
+					<img src="/public/img/facebook-icon.png">
+					<img src="/public/img/google-icon.png">
+					<img src="/public/img/twitter-icon.png">
+				</div>
+		   </div>
+		</div>
+	</body>
+</html>
