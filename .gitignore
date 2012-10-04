@@ -2,6 +2,8 @@
 bin
 obj
 *.v11.suo
+*.suo
+*.dll
 
 # mstest test results
 TestResults
