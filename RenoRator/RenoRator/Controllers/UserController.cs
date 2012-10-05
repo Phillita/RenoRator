@@ -14,6 +14,11 @@ namespace RenoRator.Controllers
         // GET: /User/
         renoRatorDBEntities _db;
 
+        public ActionResult Home()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View();

@@ -27,5 +27,10 @@ namespace RenoRator.Controllers
             return View();
         }
 
+        public ActionResult Ads()
+        {
+            return View();
+        }
+
     }
 }

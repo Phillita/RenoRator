@@ -1,0 +1,17 @@
+﻿@model RenoRator.Models.JobAd
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/shared/main_layout.cshtml";
+}
+
+<h2>Welcome!</h2>
+
+<p>RenoRators is the site to be on for finding the best contractors!</p>
+<ul>
+    <li>We give you the otion to go and find your own contractor for any job.</li>
+    <li>You can post your job and have the contractors come to you.</li>
+    <li>Review jobs done by contractors to give others the knowledge.</li>
+</ul>
+
+@Html.ActionLink("Register now to get started", "Register") or @Html.ActionLink("Login", "Login")
