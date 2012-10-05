@@ -64,6 +64,30 @@ namespace RenoRator.Controllers
 
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Login(FormCollection form)
+        {
+             _db = new renoRatorDBEntities();
+            var user = _db.Users1.Where(u => u.email == form["email"]).FirstOrDefault();
+            
+
+            if (user != null && user.password == CreateHash(form["password"] + user.salt))
+            {
+                
+                HttpContext.Session["user_id"] = user.userID;
+                return RedirectToAction("Index");
+            }
+
+            // Otherwise, reshow form
+            return View();
+
+        }
+
         private static string CreateSalt(int size)
         {
             // Generate a cryptographic random number using the cryptographic 
@@ -89,6 +113,7 @@ namespace RenoRator.Controllers
 
             return base64;
         }
+
     }
 }
 

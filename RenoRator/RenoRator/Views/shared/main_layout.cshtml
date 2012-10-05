@@ -14,6 +14,7 @@
 					<div class="logo">
 						<img height="100px" src="/public/img/logo.png" />
 					</div>
+                    @(Session["user_id"] != null ? "Logged in" : "Not Logged in")
 			  		<div id='cssmenu'>
 						<ul>
 					   		<li class='active '><a href='#'><span>Menu 1</span></a></li>
