@@ -4,6 +4,8 @@ obj
 *.v11.suo
 *.suo
 *.dll
+*.sln
+*.csproj
 
 # mstest test results
 TestResults
