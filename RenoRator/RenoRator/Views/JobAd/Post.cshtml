@@ -1,0 +1,92 @@
+﻿@model RenoRator.Models.JobAd
+
+@{
+    ViewBag.Title = "Post";
+    Layout = "~/Views/shared/main_layout.cshtml";
+}
+
+<h2>Post</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>JobAd</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.userID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.userID)
+            @Html.ValidationMessageFor(model => model.userID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.addressID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.addressID)
+            @Html.ValidationMessageFor(model => model.addressID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.priceRangeID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.priceRangeID)
+            @Html.ValidationMessageFor(model => model.priceRangeID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.tags)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.tags)
+            @Html.ValidationMessageFor(model => model.tags)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.description)
+            @Html.ValidationMessageFor(model => model.description)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.galleryID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.galleryID)
+            @Html.ValidationMessageFor(model => model.galleryID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.targetEndDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.targetEndDate)
+            @Html.ValidationMessageFor(model => model.targetEndDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.active)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.active)
+            @Html.ValidationMessageFor(model => model.active)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@*
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
