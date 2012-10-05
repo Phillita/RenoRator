@@ -72,20 +72,24 @@ namespace RenoRator.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Login(FormCollection form)
         {
-             _db = new renoRatorDBEntities();
-            var user = _db.Users1.Where(u => u.email == form["email"]).FirstOrDefault();
-            
-
-            if (user != null && user.password == CreateHash(form["password"] + user.salt))
+            int id = tryLogin(form["email"].ToString(), form["password"].ToString());
+            if (tryLogin(form["email"].ToString(), form["password"].ToString()) > 0)
             {
-                
-                HttpContext.Session["user_id"] = user.userID;
+                HttpContext.Session["user_id"] = id;
                 return RedirectToAction("Index");
             }
 
             // Otherwise, reshow form
             return View();
 
+        }
+
+        private static int tryLogin(string email, string password) {
+            renoRatorDBEntities _db = new renoRatorDBEntities();
+            var user = _db.Users1.Where(u => u.email == email).FirstOrDefault();
+            if (user != null && user.password == CreateHash(password + user.salt))
+                return user.userID;
+            return -1;
         }
 
         private static string CreateSalt(int size)
