@@ -73,7 +73,7 @@ namespace RenoRator.Controllers
         public ActionResult Login(FormCollection form)
         {
             int id = tryLogin(form["email"].ToString(), form["password"].ToString());
-            if (tryLogin(form["email"].ToString(), form["password"].ToString()) > 0)
+            if (id > 0)
             {
                 HttpContext.Session["user_id"] = id;
                 return RedirectToAction("Index");
