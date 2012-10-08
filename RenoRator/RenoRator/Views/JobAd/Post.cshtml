@@ -1,4 +1,5 @@
 ﻿@model RenoRator.Models.JobAd
+@using System.Linq
 
 @{
     ViewBag.Title = "Post";
@@ -13,68 +14,58 @@
     <fieldset>
         <legend>JobAd</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.userID)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.userID)
-            @Html.ValidationMessageFor(model => model.userID)
+        <div class="form-row">
+            <label>Address Line 1</label>
+
+            @Html.EditorFor(model => model.address.addressLine1)
+            @Html.ValidationMessageFor(model => model.address.addressLine1)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.addressID)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.addressID)
-            @Html.ValidationMessageFor(model => model.addressID)
+        <div class="form-row">
+            <label>Address Line 2</label>
+            @Html.EditorFor(model => model.address.addressLine2)
+            @Html.ValidationMessageFor(model => model.address.addressLine2)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.priceRangeID)
+        <div class="form-row">
+            <label>Postal Code</label>
+            @Html.EditorFor(model => model.address.postalCode)
+            @Html.ValidationMessageFor(model => model.address.postalCode)
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.priceRangeID)
+
+        <div class="form-row">
+            <label>City</label>
+            @Html.DropDownList("address.cityID", ViewBag.cities as SelectList, "Select a city", new { id = "address.cityID" })
+            @Html.ValidationMessageFor(model => model.address.cityID)
+        </div>
+
+        <div class="form-row">
+            <label>Price Range</label>
+            @Html.DropDownList("priceRangeID", ViewBag.priceranges as SelectList, "Select a price range", new { id = "priceRangeID" })
             @Html.ValidationMessageFor(model => model.priceRangeID)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.tags)
-        </div>
-        <div class="editor-field">
+      
+        <div class="form-row">
+            <label>Tags (Comma separate)</label>
             @Html.EditorFor(model => model.tags)
             @Html.ValidationMessageFor(model => model.tags)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.description)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.description)
+        <div class="form-row">
+            <label>description</label>
+            @Html.TextAreaFor(model => model.description,new {@rows = 14, @cols = 60})
             @Html.ValidationMessageFor(model => model.description)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.galleryID)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.galleryID)
-            @Html.ValidationMessageFor(model => model.galleryID)
+        <div class="form-row">
+            <button>Upload Image</button>
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.targetEndDate)
-        </div>
-        <div class="editor-field">
+        <div class="form-row">
+            <label>Target Completion Date</label>
             @Html.EditorFor(model => model.targetEndDate)
             @Html.ValidationMessageFor(model => model.targetEndDate)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.active)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.active)
-            @Html.ValidationMessageFor(model => model.active)
         </div>
 
         <p>
@@ -86,6 +77,12 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    $(function () {
+        $("#targetEndDate").datepicker({ dateFormat: "yy-mm-dd" });
+    });
+</script>
 @*
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

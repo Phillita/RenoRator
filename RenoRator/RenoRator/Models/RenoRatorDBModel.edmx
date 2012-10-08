@@ -7,6 +7,7 @@
     <Schema Namespace="renoratordbModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="renoratordbModelStoreContainer">
           <EntitySet Name="address" EntityType="renoratordbModel.Store.address" store:Type="Tables" Schema="renoratordb" />
+          <EntitySet Name="city" EntityType="renoratordbModel.Store.city" store:Type="Tables" Schema="renoratordb" />
           <EntitySet Name="gallery" EntityType="renoratordbModel.Store.gallery" store:Type="Tables" Schema="renoratordb" />
           <EntitySet Name="job" EntityType="renoratordbModel.Store.job" store:Type="Tables" Schema="renoratordb" />
           <EntitySet Name="jobad" EntityType="renoratordbModel.Store.jobad" store:Type="Tables" Schema="renoratordb" />
@@ -21,6 +22,10 @@
           <EntitySet Name="reviewrating" EntityType="renoratordbModel.Store.reviewrating" store:Type="Tables" Schema="renoratordb" />
           <EntitySet Name="user" EntityType="renoratordbModel.Store.user" store:Type="Tables" Schema="renoratordb" />
           <EntitySet Name="usertype" EntityType="renoratordbModel.Store.usertype" store:Type="Tables" Schema="renoratordb" />
+          <AssociationSet Name="city_id" Association="renoratordbModel.Store.city_id">
+            <End Role="city" EntitySet="city" />
+            <End Role="address" EntitySet="address" />
+          </AssociationSet>
           <AssociationSet Name="job_ibfk_1" Association="renoratordbModel.Store.job_ibfk_1">
             <End Role="address" EntitySet="address" />
             <End Role="job" EntitySet="job" />
@@ -138,9 +143,16 @@
           <Property Name="addressLine1" Type="varchar" Nullable="false" MaxLength="256" />
           <Property Name="addressLine2" Type="varchar" MaxLength="256" />
           <Property Name="postalCode" Type="varchar" Nullable="false" MaxLength="6" />
-          <Property Name="city" Type="varchar" Nullable="false" MaxLength="128" />
+          <Property Name="cityID" Type="int" Nullable="false" />
           <Property Name="province" Type="varchar" Nullable="false" MaxLength="128" />
           <Property Name="country" Type="varchar" Nullable="false" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="cityID" />
+          </Key>
+          <Property Name="cityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="city" Type="varchar" Nullable="false" MaxLength="100" />
         </EntityType>
         <EntityType Name="gallery">
           <Key>
@@ -281,6 +293,18 @@
           <Property Name="userTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="description" Type="varchar" Nullable="false" MaxLength="25" />
         </EntityType>
+        <Association Name="city_id">
+          <End Role="city" Type="renoratordbModel.Store.city" Multiplicity="1" />
+          <End Role="address" Type="renoratordbModel.Store.address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="cityID" />
+            </Principal>
+            <Dependent Role="address">
+              <PropertyRef Name="cityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="job_ibfk_1">
           <End Role="address" Type="renoratordbModel.Store.address" Multiplicity="1" />
           <End Role="job" Type="renoratordbModel.Store.job" Multiplicity="*" />
@@ -733,6 +757,11 @@
             <End Role="usertype" EntitySet="UserTypes1" />
             <End Role="user" EntitySet="Users1" />
           </AssociationSet>
+          <EntitySet Name="cities" EntityType="renoratordbModel.city" />
+          <AssociationSet Name="city_id" Association="renoratordbModel.city_id">
+            <End Role="city" EntitySet="cities" />
+            <End Role="Address" EntitySet="Addresses1" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Address">
           <Key>
@@ -742,12 +771,13 @@
           <Property Name="addressLine1" Type="String" Nullable="false" />
           <Property Name="addressLine2" Type="String" />
           <Property Name="postalCode" Type="String" Nullable="false" />
-          <Property Name="city" Type="String" Nullable="false" />
           <Property Name="province" Type="String" Nullable="false" />
           <Property Name="country" Type="String" Nullable="false" />
           <NavigationProperty Name="jobs" Relationship="renoratordbModel.job_ibfk_1" FromRole="address" ToRole="job" />
           <NavigationProperty Name="jobads" Relationship="renoratordbModel.jobad_ibfk_2" FromRole="address" ToRole="jobad" />
           <NavigationProperty Name="users" Relationship="renoratordbModel.user_ibfk_4" FromRole="address" ToRole="user" />
+          <Property Type="Int32" Name="cityID" Nullable="false" />
+          <NavigationProperty Name="city_1" Relationship="renoratordbModel.city_id" FromRole="Address" ToRole="city" />
         </EntityType>
         <EntityType Name="Gallery">
           <Key>
@@ -1263,6 +1293,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="cityID" />
+          </Key>
+          <Property Type="Int32" Name="cityID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="city1" Nullable="false" />
+          <NavigationProperty Name="addresses" Relationship="renoratordbModel.city_id" FromRole="city" ToRole="Address" />
+        </EntityType>
+        <Association Name="city_id">
+          <End Type="renoratordbModel.city" Role="city" Multiplicity="1" />
+          <End Type="renoratordbModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="cityID" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="cityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1270,11 +1320,11 @@
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="renoratordbModelStoreContainer" CdmEntityContainer="renoRatorDBEntities">
           <EntitySetMapping Name="Addresses1"><EntityTypeMapping TypeName="renoratordbModel.Address"><MappingFragment StoreEntitySet="address">
-            <ScalarProperty Name="addressID" ColumnName="addressID" />
+            <ScalarProperty Name="cityID" ColumnName="cityID" />
+                <ScalarProperty Name="addressID" ColumnName="addressID" />
             <ScalarProperty Name="addressLine1" ColumnName="addressLine1" />
             <ScalarProperty Name="addressLine2" ColumnName="addressLine2" />
             <ScalarProperty Name="postalCode" ColumnName="postalCode" />
-            <ScalarProperty Name="city" ColumnName="city" />
             <ScalarProperty Name="province" ColumnName="province" />
             <ScalarProperty Name="country" ColumnName="country" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
@@ -1375,6 +1425,14 @@
             <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
             <ScalarProperty Name="description" ColumnName="description" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="cities">
+            <EntityTypeMapping TypeName="renoratordbModel.city">
+              <MappingFragment StoreEntitySet="city">
+                <ScalarProperty Name="city1" ColumnName="city" />
+                <ScalarProperty Name="cityID" ColumnName="cityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1396,7 +1454,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="RenoRatorDBModel">
-        <EntityTypeShape EntityType="renoratordbModel.Address" Width="1.5" PointX="0.75" PointY="5.25" Height="2.9417936197916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="renoratordbModel.Address" Width="1.5" PointX="0.75" PointY="5.25" Height="3.1340950520833317" IsExpanded="true" />
         <EntityTypeShape EntityType="renoratordbModel.Gallery" Width="1.5" PointX="0.75" PointY="9.875" Height="2.7494921874999996" IsExpanded="true" />
         <EntityTypeShape EntityType="renoratordbModel.Job" Width="1.5" PointX="3" PointY="9.125" Height="4.0956022135416639" IsExpanded="true" />
         <EntityTypeShape EntityType="renoratordbModel.JobAd" Width="1.5" PointX="6" PointY="9.5" Height="3.5186979166666639" IsExpanded="true" />
@@ -1412,23 +1470,23 @@
         <EntityTypeShape EntityType="renoratordbModel.User" Width="1.5" PointX="5.25" PointY="14.625" Height="5.8263151041666674" IsExpanded="true" />
         <EntityTypeShape EntityType="renoratordbModel.UserType" Width="1.5" PointX="3" PointY="16.75" Height="1.5956835937500031" IsExpanded="true" />
         <AssociationConnector Association="renoratordbModel.job_ibfk_1" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="6.7208968098958337" />
-          <ConnectorPoint PointX="3.75" PointY="6.7208968098958337" />
+          <ConnectorPoint PointX="2.25" PointY="6.8679021559959672" />
+          <ConnectorPoint PointX="3.75" PointY="6.8679021559959672" />
           <ConnectorPoint PointX="3.75" PointY="9.125" />
         </AssociationConnector>
         <AssociationConnector Association="renoratordbModel.jobad_ibfk_2" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="7.4875977148437505" />
-          <ConnectorPoint PointX="3.6666666666666665" PointY="7.48759771484375" />
-          <ConnectorPoint PointX="3.8333333333333335" PointY="7.4875977148437505" />
-          <ConnectorPoint PointX="5.510416666666667" PointY="7.48759771484375" />
-          <ConnectorPoint PointX="5.677083333333333" PointY="7.4875977148437505" />
-          <ConnectorPoint PointX="6.75" PointY="7.4875977148437505" />
+          <ConnectorPoint PointX="2.25" PointY="7.6572511040396494" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="7.6572511040396485" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="7.6572511040396494" />
+          <ConnectorPoint PointX="5.5326772820512824" PointY="7.6572511040396485" />
+          <ConnectorPoint PointX="5.6993439487179485" PointY="7.6572511040396494" />
+          <ConnectorPoint PointX="6.75" PointY="7.6572511040396494" />
           <ConnectorPoint PointX="6.75" PointY="9.5" />
         </AssociationConnector>
         <AssociationConnector Association="renoratordbModel.user_ibfk_4" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="5.954195904947917" />
-          <ConnectorPoint PointX="5.59375" PointY="5.954195904947917" />
-          <ConnectorPoint PointX="5.59375" PointY="14.625" />
+          <ConnectorPoint PointX="2.25" PointY="6.0276985779979837" />
+          <ConnectorPoint PointX="5.6160106153846154" PointY="6.0276985779979837" />
+          <ConnectorPoint PointX="5.6160106153846154" PointY="14.625" />
         </AssociationConnector>
         <AssociationConnector Association="renoratordbModel.job_ibfk_3" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="11.24974609375" />
@@ -1438,14 +1496,16 @@
         </AssociationConnector>
         <AssociationConnector Association="renoratordbModel.jobad_ibfk_4" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="10.531121046874999" />
-          <ConnectorPoint PointX="2.75" PointY="10.531121046874999" />
-          <ConnectorPoint PointX="2.75" PointY="13.470602213541664" />
+          <ConnectorPoint PointX="2.7916666666666665" PointY="10.531121046874999" />
+          <ConnectorPoint PointX="2.7916666666666665" PointY="13.470602213541664" />
           <ConnectorPoint PointX="2.7916666666666665" PointY="13.470602213541662" />
           <ConnectorPoint PointX="3.0520833333333335" PointY="13.470602213541664" />
           <ConnectorPoint PointX="3.6666666666666665" PointY="13.470602213541664" />
           <ConnectorPoint PointX="3.8333333333333335" PointY="13.470602213541664" />
-          <ConnectorPoint PointX="5.3518103974358979" PointY="13.470602213541662" />
-          <ConnectorPoint PointX="5.6770833333333321" PointY="13.470602213541664" />
+          <ConnectorPoint PointX="5.3518103974358979" PointY="13.470602213541664" />
+          <ConnectorPoint PointX="5.518477064102564" PointY="13.470602213541664" />
+          <ConnectorPoint PointX="5.5326772820512824" PointY="13.470602213541664" />
+          <ConnectorPoint PointX="5.6993439487179485" PointY="13.470602213541664" />
           <ConnectorPoint PointX="5.7135441666666669" PointY="13.470602213541664" />
           <ConnectorPoint PointX="5.8802108333333329" PointY="13.470602213541664" />
           <ConnectorPoint PointX="5.9713554166666674" PointY="13.470602213541664" />
@@ -1463,14 +1523,16 @@
         </AssociationConnector>
         <AssociationConnector Association="renoratordbModel.review_ibfk_4" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="12.582952725961539" />
-          <ConnectorPoint PointX="2.6910744349011213" PointY="13.024027160862659" />
-          <ConnectorPoint PointX="2.8089255650988791" PointY="13.141878291060417" />
+          <ConnectorPoint PointX="2.7327411015677878" PointY="13.065693827529325" />
+          <ConnectorPoint PointX="2.8505922317655457" PointY="13.183544957727083" />
           <ConnectorPoint PointX="2.96875" PointY="13.301702725961539" />
           <ConnectorPoint PointX="2.96875" PointY="13.625" />
           <ConnectorPoint PointX="3.6666666666666665" PointY="13.625" />
           <ConnectorPoint PointX="3.8333333333333335" PointY="13.625" />
-          <ConnectorPoint PointX="5.3518103974358979" PointY="13.624999999999998" />
-          <ConnectorPoint PointX="5.6770833333333321" PointY="13.625" />
+          <ConnectorPoint PointX="5.3518103974358979" PointY="13.625" />
+          <ConnectorPoint PointX="5.518477064102564" PointY="13.625" />
+          <ConnectorPoint PointX="5.5326772820512824" PointY="13.625" />
+          <ConnectorPoint PointX="5.6993439487179485" PointY="13.625" />
           <ConnectorPoint PointX="5.7135441666666669" PointY="13.625" />
           <ConnectorPoint PointX="5.8802108333333329" PointY="13.625" />
           <ConnectorPoint PointX="5.9713554166666674" PointY="13.625" />
@@ -1512,8 +1574,8 @@
         <AssociationConnector Association="renoratordbModel.job_ibfk_4" ManuallyRouted="false">
           <ConnectorPoint PointX="5.7968775" PointY="14.625" />
           <ConnectorPoint PointX="5.7968775" PointY="9.28125" />
-          <ConnectorPoint PointX="5.677083333333333" PointY="9.28125" />
-          <ConnectorPoint PointX="5.510416666666667" PointY="9.28125" />
+          <ConnectorPoint PointX="5.6993439487179485" PointY="9.28125" />
+          <ConnectorPoint PointX="5.5326772820512824" PointY="9.28125" />
           <ConnectorPoint PointX="4.5" PointY="9.28125" />
         </AssociationConnector>
         <AssociationConnector Association="renoratordbModel.job_ibfk_5" ManuallyRouted="false">
@@ -1523,8 +1585,8 @@
         </AssociationConnector>
         <AssociationConnector Association="renoratordbModel.review_ibfk_2" ManuallyRouted="false">
           <ConnectorPoint PointX="4.5" PointY="9.3906275" />
-          <ConnectorPoint PointX="5.510416666666667" PointY="9.3906275" />
-          <ConnectorPoint PointX="5.677083333333333" PointY="9.3906275" />
+          <ConnectorPoint PointX="5.5326772820512824" PointY="9.3906275" />
+          <ConnectorPoint PointX="5.6993439487179485" PointY="9.3906275" />
           <ConnectorPoint PointX="5.7135441666666669" PointY="9.3906275" />
           <ConnectorPoint PointX="5.8802108333333329" PointY="9.3906275" />
           <ConnectorPoint PointX="6.666666666666667" PointY="9.3906275" />
@@ -1544,8 +1606,10 @@
           <ConnectorPoint PointX="3.8333333333333335" PointY="14.40625" />
           <ConnectorPoint PointX="4.9236858974358979" PointY="14.40625" />
           <ConnectorPoint PointX="5.141120794871795" PointY="14.40625" />
-          <ConnectorPoint PointX="5.3518103974358979" PointY="14.406249999999998" />
-          <ConnectorPoint PointX="5.6770833333333321" PointY="14.40625" />
+          <ConnectorPoint PointX="5.3518103974358979" PointY="14.40625" />
+          <ConnectorPoint PointX="5.518477064102564" PointY="14.40625" />
+          <ConnectorPoint PointX="5.5326772820512824" PointY="14.40625" />
+          <ConnectorPoint PointX="5.6993439487179485" PointY="14.40625" />
           <ConnectorPoint PointX="5.7135441666666669" PointY="14.40625" />
           <ConnectorPoint PointX="5.8802108333333329" PointY="14.40625" />
           <ConnectorPoint PointX="5.9713554166666674" PointY="14.40625" />
@@ -1613,6 +1677,11 @@
         <AssociationConnector Association="renoratordbModel.user_ibfk_1" ManuallyRouted="false">
           <ConnectorPoint PointX="4.5" PointY="17.547841796875" />
           <ConnectorPoint PointX="5.25" PointY="17.547841796875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="renoratordbModel.city" Width="1.5" PointX="0.75" PointY="2.125" Height="1.5956835937500031" />
+        <AssociationConnector Association="renoratordbModel.city_id" >
+          <ConnectorPoint PointX="1.5" PointY="3.7206835937500031" />
+          <ConnectorPoint PointX="1.5" PointY="5.25" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

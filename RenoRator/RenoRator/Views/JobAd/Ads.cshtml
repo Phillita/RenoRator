@@ -11,70 +11,33 @@
 <p>
     @Html.ActionLink("Create New", "Post")
 </p>
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.userID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.addressID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.priceRangeID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tags)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.galleryID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.targetEndDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.active)
-        </th>
-        <th></th>
-    </tr>
 
-@if( Model != null )
+@if (Model != null)
 {
-    foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.userID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.addressID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.priceRangeID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tags)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.galleryID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.targetEndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.active)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.jobAdID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.jobAdID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.jobAdID })
-            </td>
-        </tr>
+    foreach (var item in Model)
+    {
+        <div class="three_column_middle">
+            <input type="hidden" value="@item.address.addressLine1" />
+            <input type="hidden" value="@item.address.postalCode" />
+            <input type="hidden" value="@item.address.province" />
+            <h2>User Name</h2>
+            <p>@Html.DisplayFor(modelItem => item.user.fname) @Html.DisplayFor(modelItem => item.user.lname)</p>
+            <h2>Price Range</h2>
+            <p>@Html.DisplayFor(modelItem => item.pricerange.min) - @Html.DisplayFor(modelItem => item.pricerange.max)</p>
+            <h2>Description</h2>
+            <p>@Html.DisplayFor(modelItem => item.description)</p>
+            <h2>Target End Date</h2>
+            <p>@Html.DisplayFor(modelItem => item.targetEndDate)</p>
+
+            <!--@Html.ActionLink("Edit", "Edit", new { id = item.jobAdID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.jobAdID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.jobAdID })-->
+        </div>
     }
 }
-
-</table>
+else
+{
+    <div class="three_column_middle">
+        <p>Sorry, there are no ads availible right now. Try again later.</p>
+    </div>
+}
