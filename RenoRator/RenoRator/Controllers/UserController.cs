@@ -81,9 +81,9 @@ namespace RenoRator.Controllers
             if (id > 0)
             {
                 HttpContext.Session["userID"] = id;
-                if (redirectPage != String.Empty && redirectController != String.Empty)
+                if (!string.IsNullOrEmpty(redirectPage) && !String.IsNullOrEmpty(redirectController))
                     return RedirectToAction(redirectPage, redirectController);
-                return RedirectToAction("Index");
+                return RedirectToAction("Home", "User");
             }
 
             // Otherwise, reshow form
