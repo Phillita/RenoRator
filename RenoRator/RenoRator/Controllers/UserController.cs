@@ -75,13 +75,15 @@ namespace RenoRator.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Login(FormCollection form)
+        public ActionResult Login(FormCollection form, string redirectPage, string redirectController)
         {
             int id = tryLogin(form["email"].ToString(), form["password"].ToString());
             if (id > 0)
             {
-                HttpContext.Session["user_id"] = id;
-                return RedirectToAction("Home");
+                HttpContext.Session["userID"] = id;
+                if (redirectPage != String.Empty && redirectController != String.Empty)
+                    return RedirectToAction(redirectPage, redirectController);
+                return RedirectToAction("Index");
             }
 
             // Otherwise, reshow form
@@ -98,8 +100,8 @@ namespace RenoRator.Controllers
         public ActionResult Logout(FormCollection form)
         {
 
-            if (HttpContext.Session["user_id"] != null)
-                HttpContext.Session["user_id"] = null;
+            if (HttpContext.Session["userID"] != null)
+                HttpContext.Session["userID"] = null;
             return RedirectToAction("Home");
         }
 

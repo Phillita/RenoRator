@@ -3,6 +3,8 @@
 	<head>
 		<title>RenoRator</title>
 		<link rel="stylesheet" type="text/css" href="/public/css/styles.css" />
+        <link href="../../public/css/ui-lightness/jquery-ui-1.8.24.custom.css" rel="stylesheet"
+            type="text/css" />
         <meta name="viewport" content="width=device-width" />
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.24.custom.min.js"></script>
@@ -29,13 +31,14 @@
 					<div class="logo">
 						<img height="100px" src="/public/img/logo.png" />
 					</div>
+                    @(Session["userID"] != null ? "Logged in" : "Not Logged in")
 			  		<div id='cssmenu'>
 						<ul>
                             <li class='active'><a href='#'><span>Home</span></a></li>
 					   		<li><a href='#'><span>Search</span></a></li>
 					   		<li><a href='#'><span>Job Ads</span></a></li>
 					   		<li><a href='#'><span>Contractors</span></a></li>
-                            @if (Session["user_id"] != null)
+                            @if (Session["userID"] != null)
                             {
                                 <li id="logout_btn"><a href='#'><span>Logout</span></a></li>
                                 @(Html.BeginForm("Logout", "User", FormMethod.Post, new { id="login_form", @class="hidden" } )) {}
@@ -47,10 +50,10 @@
                             }
 						</ul>
 					</div>                                        
-                    @if (Session["user_id"] != null)
+                    @if (Session["userID"] != null)
                     {
                         <div class="logged_in_info">
-                            Logged in as @Session["user_id"]
+                            Logged in as @Session["userID"]
                         </div>
                     }
                     else

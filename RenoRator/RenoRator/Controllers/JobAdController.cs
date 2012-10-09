@@ -20,6 +20,9 @@ namespace RenoRator.Controllers
 
         public ActionResult Post()
         {
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "User", new { redirectPage = "Post", redirectController = "JobAd" });
+
             _db = new renoRatorDBEntities();
             var priceRanges = from range in _db.PriceRanges1.ToList()
                               select new { priceRangeID = range.priceRangeID, range = range.min + " - " + range.max };
@@ -45,9 +48,15 @@ namespace RenoRator.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Post(FormCollection form)
         {
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "User", new { redirectPage = "Post", redirectController = "JobAd" });
+
             _db = new renoRatorDBEntities();
             var newJobAd = new JobAd();
             newJobAd.address = new Address();
+
+            TryUpdateModel(newJobAd, new string[] { "address.addressLine1", "address.addressLine2", "address.postalCode", "address.cityID" }, form.ToValueProvider());
+
             try
             {
                 newJobAd.address.addressLine1 = form["address.addressLine1"];
@@ -57,7 +66,7 @@ namespace RenoRator.Controllers
                 newJobAd.address.province = "ON";
                 newJobAd.address.country = "Canada";
 
-                newJobAd.userID = 4;
+                newJobAd.userID = (int)Session["userID"];
                 newJobAd.active = true;
                 newJobAd.priceRangeID = Convert.ToInt32(form["priceRangeID"]);
                 newJobAd.tags = form["tags"].Replace(",", "||");

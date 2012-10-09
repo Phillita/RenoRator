@@ -44,36 +44,35 @@
                 @Html.ValidationMessageFor(model => model.priceRangeID)
                 @Html.DropDownList("priceRangeID", ViewBag.priceranges as SelectList, "Select a price range", new { id = "priceRangeID" })
             </div>
+        <div class="form-row">
+            <label>Tags (Comma separate)</label>
+            @Html.EditorFor(model => model.tags)
+            @Html.ValidationMessageFor(model => model.tags)
+        </div>
 
-      
-            <div class="form-row">
-                <label>Tags (Comma separate):</label>
-                @Html.ValidationMessageFor(model => model.tags)
-                @Html.EditorFor(model => model.tags)
-            </div>
+        <div class="form-row">
+            <label>description</label>
+            @Html.TextAreaFor(model => model.description,new {@rows = 14, @cols = 60})
+            @Html.ValidationMessageFor(model => model.description)
+        </div>
 
-            <div class="form-row">
-                <label>Description:</label>
-                @Html.ValidationMessageFor(model => model.description)
-                @Html.TextAreaFor(model => model.description,new {@rows = 14, @cols = 60})
-            </div>
+        <div class="form-row">
+            <input type="button" value="Upload Image" />
+        </div>
 
-            <div class="form-row">
-                <button>Upload Image</button>
-            </div>
+        <div class="form-row">
+            <label>Target Completion Date</label>
+            @Html.EditorFor(model => model.targetEndDate)
+            @Html.ValidationMessageFor(model => model.targetEndDate)
+        </div>
 
-            <div class="form-row">
-                <label>Target Completion Date:</label>
-                @Html.ValidationMessageFor(model => model.targetEndDate)
-                @Html.EditorFor(model => model.targetEndDate)
-            </div>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+}
 
-            <p>
-                <input type="submit" value="Create" class="orange_btn" />
-            </p>
-        }
-
-    </div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
 </div>
 
 <script>
