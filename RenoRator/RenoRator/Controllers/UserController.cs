@@ -94,16 +94,10 @@ namespace RenoRator.Controllers
 
         public ActionResult Logout()
         {
-            return View();
-        }
-       
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Logout(FormCollection form)
-        {
-
             if (HttpContext.Session["userID"] != null)
                 HttpContext.Session["userID"] = null;
-            return RedirectToAction("Home");
+            Response.AddHeader("REFRESH", "5;URL=Home");
+            return View();
         }
 
         private static int tryLogin(string email, string password) {

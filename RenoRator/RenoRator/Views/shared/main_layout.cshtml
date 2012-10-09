@@ -17,16 +17,16 @@
                     function () { $("#login_bar").show(); },
                     function () { $("#login_bar").hide(); }
                 );
-                $("#logout_btn").click(function (e) {
-                    e.preventDefault();
-                    $.ajax({
-                        type: "POST",
-                        url: "User/Logout",
-                        success: function () {
-                            window.location.reload();
-                        }
-                    });
-                });
+//                $("#logout_btn").click(function (e) {
+//                    e.preventDefault();
+//                    $.ajax({
+//                        type: "POST",
+//                        url: "User/Logout",
+//                        success: function () {
+//                            window.location.reload();
+//                        }
+//                    });
+//                });
             });
         </script>
 	</head>
@@ -45,7 +45,7 @@
 					   		<li><a href='#'><span>Contractors</span></a></li>
                             @if (Session["userID"] != null)
                             {
-                                <li id="logout_btn"><a href="User/Logout"><span>Logout</span></a></li>
+                                <li id="logout_btn"><a href="@Url.Action("Logout","User")"><span>Logout</span></a></li>
                             }
                             else
                             {
