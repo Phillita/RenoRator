@@ -5,58 +5,55 @@
     Layout = "~/Views/shared/main_layout.cshtml";
 }
 
-<h2>Register</h2>
+<div class="two_column_left"></div>
+<div class="two_column_right">
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+    <div class="form_container">
+        <h2>New RenoRator User</h2>
+        @using (Html.BeginForm()) {
+            @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>User</legend>
+            <div class="editor-label">
+                @*@Html.LabelFor(model => model.fname)*@
+                First Name:
+            </div>
+            <div class="editor-field">
+                @Html.ValidationMessageFor(model => model.fname)
+                @Html.EditorFor(model => model.fname)
+            </div>
 
-        <div class="editor-label">
-            @*@Html.LabelFor(model => model.fname)*@
-            First Name
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.fname)
-            @Html.ValidationMessageFor(model => model.fname)
-        </div>
+            <div class="editor-label">
+                @*@Html.LabelFor(model => model.lname)*@
+                Last Name:
+            </div>
+            <div class="editor-field">
+                @Html.ValidationMessageFor(model => model.lname)
+                @Html.EditorFor(model => model.lname)
+            </div>
 
-        <div class="editor-label">
-            @*@Html.LabelFor(model => model.lname)*@
-            Last Name
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.lname)
-            @Html.ValidationMessageFor(model => model.lname)
-        </div>
+            <div class="editor-label">
+                @*@Html.LabelFor(model => model.email)*@
+                Email Address:
+            </div>
+            <div class="editor-field">
+                @Html.ValidationMessageFor(model => model.email)
+                @Html.EditorFor(model => model.email)
+            </div>
 
-        <div class="editor-label">
-            @*@Html.LabelFor(model => model.email)*@
-            Email Address
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.email)
-            @Html.ValidationMessageFor(model => model.email)
-        </div>
+            <div class="editor-label">
+                Password:
+            </div>
+            <div class="editor-field">
+                @*@Html.EditorFor(model => model.password)*@
+                @Html.ValidationMessageFor(model => model.password)
+                @Html.PasswordFor(model => model.password)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.password)
-        </div>
-        <div class="editor-field">
-            @*@Html.EditorFor(model => model.password)*@
-            <input class="input-validation-error text-box single-line" id="password" name="password" type="password">
-            @Html.ValidationMessageFor(model => model.password)
-        </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+            <p>
+                <input type="submit" value="Register" class="orange_btn" />
+            </p>
+        }
+    </div>
 </div>
 
 @*@section Scripts {

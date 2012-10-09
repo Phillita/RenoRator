@@ -61,7 +61,7 @@ namespace RenoRator.Controllers
             {
                 _db.AddToUsers1(newUser);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             // Otherwise, reshow form
@@ -81,12 +81,26 @@ namespace RenoRator.Controllers
             if (id > 0)
             {
                 HttpContext.Session["user_id"] = id;
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             // Otherwise, reshow form
             return View();
 
+        }
+
+        public ActionResult Logout()
+        {
+            return View();
+        }
+       
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Logout(FormCollection form)
+        {
+
+            if (HttpContext.Session["user_id"] != null)
+                HttpContext.Session["user_id"] = null;
+            return RedirectToAction("Home");
         }
 
         private static int tryLogin(string email, string password) {

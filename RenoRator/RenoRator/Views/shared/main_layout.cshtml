@@ -6,6 +6,21 @@
         <meta name="viewport" content="width=device-width" />
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="../../Scripts/jquery-ui-1.8.24.custom.min.js"></script>
+        <script type="text/javascript" >
+            $(document).ready(function () {
+                $("#login_btn").hover(
+                    function () { $("#login_bar").show(); }
+                );
+                $("#login_bar").hover(
+                    function () { $("#login_bar").show(); },
+                    function () { $("#login_bar").hide(); }
+                );
+                $("#logout_btn").click(function () {
+                    $("#login_form").submit();
+                    return false;
+                });
+            });
+        </script>
 	</head>
 	<body>
 		<div class="container">
@@ -14,26 +29,63 @@
 					<div class="logo">
 						<img height="100px" src="/public/img/logo.png" />
 					</div>
-                    @(Session["user_id"] != null ? "Logged in" : "Not Logged in")
 			  		<div id='cssmenu'>
 						<ul>
-					   		<li class='active '><a href='#'><span>Menu 1</span></a></li>
-					   		<li class='has-sub '><a href='#'><span>Menu 2</span></a>
-					      		<ul>
-					         		<li><a href='#'><span>Sub Menu 1</span></a></li>
-					         		<li><a href='#'><span>Sub Menu 2</span></a></li>
-					      		</ul>
-					   		</li>
-					   		<li><a href='#'><span>Menu 3</span></a></li>
-					   		<li><a href='#'><span>Menu 4</span></a></li>
+                            <li class='active'><a href='#'><span>Home</span></a></li>
+					   		<li><a href='#'><span>Search</span></a></li>
+					   		<li><a href='#'><span>Job Ads</span></a></li>
+					   		<li><a href='#'><span>Contractors</span></a></li>
+                            @if (Session["user_id"] != null)
+                            {
+                                <li id="logout_btn"><a href='#'><span>Logout</span></a></li>
+                                @(Html.BeginForm("Logout", "User", FormMethod.Post, new { id="login_form", @class="hidden" } )) {}
+                                
+                            }
+                            else
+                            {
+					   		    <li id="login_btn"><a href='#'><span>Login</span></a></li>
+                            }
 						</ul>
-					</div>
+					</div>                                        
+                    @if (Session["user_id"] != null)
+                    {
+                        <div class="logged_in_info">
+                            Logged in as @Session["user_id"]
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="login_bar">
+                            <div class="form_container" style="width:250px;">
+                                @using (Html.BeginForm("Login", "User", FormMethod.Post))
+                                {
+                                    @Html.ValidationSummary(true)
+                                    <div class="editor-label">
+                                        Email:
+                                    </div>
+                                    <div class="editor-field">
+                                        @Html.Editor("email")
+                                    </div>       
+                                    <div class="editor-label">
+                                        Password:
+                                    </div>
+                                    <div class="editor-field">
+                                        @Html.Password("password")
+                                    </div>
+                                    <p>
+                                        <input type="submit" value="Log me in" class="orange_btn" />
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
 				</div>
 		   </div>
 		   <div class="body">
                 <div class="content">
                     @RenderBody()
                 </div>                
+                <div class="clear"></div>
            </div>
 		   <div class="footer">
 				<div class="content">
