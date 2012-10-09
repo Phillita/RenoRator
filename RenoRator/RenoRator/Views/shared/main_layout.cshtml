@@ -17,9 +17,15 @@
                     function () { $("#login_bar").show(); },
                     function () { $("#login_bar").hide(); }
                 );
-                $("#logout_btn").click(function () {
-                    $("#login_form").submit();
-                    return false;
+                $("#logout_btn").click(function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        type: "POST",
+                        url: "User/Logout",
+                        success: function () {
+                            window.location.reload();
+                        }
+                    });
                 });
             });
         </script>
@@ -39,9 +45,7 @@
 					   		<li><a href='#'><span>Contractors</span></a></li>
                             @if (Session["userID"] != null)
                             {
-                                <li id="logout_btn"><a href='#'><span>Logout</span></a></li>
-                                @(Html.BeginForm("Logout", "User", FormMethod.Post, new { id="login_form", @class="hidden" } )) {}
-                                
+                                <li id="logout_btn"><a href="User/Logout"><span>Logout</span></a></li>
                             }
                             else
                             {

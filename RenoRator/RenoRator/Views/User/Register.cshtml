@@ -1,4 +1,4 @@
-﻿@model RenoRator.Models.User
+﻿@model RenoRator.Models.RegisterModel
 
 @{
     ViewBag.Title = "Register";
@@ -13,49 +13,43 @@
         @using (Html.BeginForm()) {
             @Html.ValidationSummary(true)
 
-            <div class="editor-label">
-                @*@Html.LabelFor(model => model.fname)*@
-                First Name:
-            </div>
-            <div class="editor-field">
+            <div class="form-row">
+                <label>First Name:</label>
                 @Html.ValidationMessageFor(model => model.fname)
                 @Html.EditorFor(model => model.fname)
             </div>
-
-            <div class="editor-label">
-                @*@Html.LabelFor(model => model.lname)*@
-                Last Name:
-            </div>
-            <div class="editor-field">
+            
+            <div class="form-row">
+                <label>Last Name:</label>
                 @Html.ValidationMessageFor(model => model.lname)
                 @Html.EditorFor(model => model.lname)
             </div>
-
-            <div class="editor-label">
-                @*@Html.LabelFor(model => model.email)*@
-                Email Address:
-            </div>
-            <div class="editor-field">
+            
+            <div class="form-row">
+                <label>Email Address:</label>
                 @Html.ValidationMessageFor(model => model.email)
                 @Html.EditorFor(model => model.email)
             </div>
-
-            <div class="editor-label">
-                Password:
+            
+            <div class="form-row">
+                <label>Confirm Email Address:</label>
+                @Html.ValidationMessageFor(model => model.emailConfirm)
+                @Html.EditorFor(model => model.emailConfirm)
             </div>
-            <div class="editor-field">
-                @*@Html.EditorFor(model => model.password)*@
+            
+            <div class="form-row">
+                <label>Password:</label>
                 @Html.ValidationMessageFor(model => model.password)
                 @Html.PasswordFor(model => model.password)
             </div>
-
+            <div class="form-row">
+                <label>Confirm Password:</label>
+                @Html.ValidationMessageFor(model => model.passwordConfirm)
+                @Html.PasswordFor(model => model.passwordConfirm)
+            </div>
             <p>
                 <input type="submit" value="Register" class="orange_btn" />
             </p>
         }
     </div>
 </div>
-
-@*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@

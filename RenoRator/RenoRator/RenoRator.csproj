@@ -112,6 +112,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\RenoRatorDBModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -179,9 +180,6 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\User\Register.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\JobAd\Post.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
   </ItemGroup>
@@ -196,6 +194,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\User\Logout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\User\Register.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RenoRatorLibrary\RenoRatorLibrary.csproj">
+      <Project>{B8E7CFB4-D153-48D8-B15F-5D76CC9DD97E}</Project>
+      <Name>RenoRatorLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
