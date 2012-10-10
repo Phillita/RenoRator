@@ -8,13 +8,12 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
-using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Linq;
-using System.Runtime.Serialization;
+using System.Data.EntityClient;
+using System.ComponentModel;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -372,7 +371,6 @@ namespace RenoRator.Models
         private ObjectSet<province> _provinces;
 
         #endregion
-
         #region AddTo Methods
     
         /// <summary>
@@ -512,11 +510,11 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
+    
 
     #endregion
-
+    
     #region Entities
     
     /// <summary>
@@ -549,7 +547,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -700,7 +697,6 @@ namespace RenoRator.Models
         partial void OncityIDChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -809,7 +805,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -838,7 +833,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -917,7 +911,6 @@ namespace RenoRator.Models
         partial void OnprovinceIDChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -982,7 +975,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -1009,7 +1001,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -1088,7 +1079,6 @@ namespace RenoRator.Models
         partial void OndescriptionChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -1225,7 +1215,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -1264,7 +1253,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -1511,7 +1499,6 @@ namespace RenoRator.Models
         partial void OntagsChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -1728,7 +1715,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -1763,7 +1749,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -2010,7 +1995,6 @@ namespace RenoRator.Models
         partial void OntitleChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -2167,7 +2151,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -2198,7 +2181,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -2325,7 +2307,6 @@ namespace RenoRator.Models
         partial void OnextensionChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -2406,7 +2387,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -2433,7 +2413,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -2488,7 +2467,6 @@ namespace RenoRator.Models
         partial void OndescriptionChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -2515,7 +2493,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -2542,7 +2519,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -2645,7 +2621,6 @@ namespace RenoRator.Models
         partial void OndescriptionChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -2710,7 +2685,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -2739,7 +2713,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -2818,7 +2791,6 @@ namespace RenoRator.Models
         partial void OnmaxChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -2867,7 +2839,112 @@ namespace RenoRator.Models
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="renoratordbModel", Name="province")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class province : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new province object.
+        /// </summary>
+        /// <param name="provinceID">Initial value of the provinceID property.</param>
+        /// <param name="province1">Initial value of the province1 property.</param>
+        public static province Createprovince(global::System.Int32 provinceID, global::System.String province1)
+        {
+            province province = new province();
+            province.provinceID = provinceID;
+            province.province1 = province1;
+            return province;
+        }
 
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 provinceID
+        {
+            get
+            {
+                return _provinceID;
+            }
+            set
+            {
+                if (_provinceID != value)
+                {
+                    OnprovinceIDChanging(value);
+                    ReportPropertyChanging("provinceID");
+                    _provinceID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("provinceID");
+                    OnprovinceIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _provinceID;
+        partial void OnprovinceIDChanging(global::System.Int32 value);
+        partial void OnprovinceIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String province1
+        {
+            get
+            {
+                return _province1;
+            }
+            set
+            {
+                Onprovince1Changing(value);
+                ReportPropertyChanging("province1");
+                _province1 = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("province1");
+                Onprovince1Changed();
+            }
+        }
+        private global::System.String _province1;
+        partial void Onprovince1Changing(global::System.String value);
+        partial void Onprovince1Changed();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("renoratordbModel", "city_ibfk_1", "city")]
+        public EntityCollection<city> cities
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<city>("renoratordbModel.city_ibfk_1", "city");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<city>("renoratordbModel.city_ibfk_1", "city", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>
@@ -3003,7 +3080,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -3058,7 +3134,6 @@ namespace RenoRator.Models
         partial void OnquestionChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -3085,7 +3160,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -3116,7 +3190,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -3267,7 +3340,6 @@ namespace RenoRator.Models
         partial void OngalleryIDChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -3490,7 +3562,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -3521,7 +3592,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -3624,7 +3694,6 @@ namespace RenoRator.Models
         partial void OncommentChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -3705,7 +3774,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -3736,7 +3804,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -3839,7 +3906,6 @@ namespace RenoRator.Models
         partial void OnisGoodChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -3920,7 +3986,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -3951,7 +4016,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -4054,7 +4118,6 @@ namespace RenoRator.Models
         partial void OnratingChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -4135,7 +4198,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -4172,7 +4234,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -4467,7 +4528,6 @@ namespace RenoRator.Models
         partial void OnportfolioGalleryIDChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -4838,7 +4898,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
     
     /// <summary>
@@ -4865,7 +4924,6 @@ namespace RenoRator.Models
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -4920,7 +4978,6 @@ namespace RenoRator.Models
         partial void OndescriptionChanged();
 
         #endregion
-
     
         #region Navigation Properties
     
@@ -4947,10 +5004,8 @@ namespace RenoRator.Models
         }
 
         #endregion
-
     }
 
     #endregion
-
     
 }

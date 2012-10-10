@@ -16,6 +16,12 @@
             @Html.ValidationSummary(true)
 
             <div class="form-row">
+                <label>Title:</label>
+                @Html.ValidationMessageFor(model => model.title)
+                @Html.EditorFor(model => model.title)
+            </div>
+            
+            <div class="form-row">
                 <label>Address Line 1:</label>
                 @Html.ValidationMessageFor(model => model.address.addressLine1)
                 @Html.EditorFor(model => model.address.addressLine1)
@@ -30,9 +36,14 @@
             <div class="form-row">
                 <label>Postal Code:</label>
                 @Html.ValidationMessageFor(model => model.address.postalCode)
-                @Html.EditorFor(model => model.address.postalCode)
+                @Html.EditorFor(model => model.address.postalCode, new { @maxLength = 6 })
             </div>
 
+            <div class="form-row">
+                <label>City:</label>
+                @Html.DropDownList("provinceID", ViewBag.provinces as SelectList, "Select a province", new { id = "provinceID" })
+            </div>
+            
             <div class="form-row">
                 <label>City:</label>
                 @Html.ValidationMessageFor(model => model.address.cityID)
@@ -52,7 +63,7 @@
 
         <div class="form-row">
             <label>description</label>
-            @Html.TextAreaFor(model => model.description,new {@rows = 14, @cols = 60})
+            @Html.TextAreaFor(model => model.description, new { @rows = 14, @cols = 60 })
             @Html.ValidationMessageFor(model => model.description)
         </div>
 
@@ -61,7 +72,7 @@
         </div>
 
         <div class="form-row">
-            <label>Target Completion Date</label>
+            <label>Target Completion Date (YYYY-MM-DD)</label>
             @Html.EditorFor(model => model.targetEndDate)
             @Html.ValidationMessageFor(model => model.targetEndDate)
         </div>

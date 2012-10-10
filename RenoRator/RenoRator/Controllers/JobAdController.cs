@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using RenoRator.Models;
+using RenoRatorLibrary;
 
 namespace RenoRator.Controllers
 {
@@ -18,11 +19,8 @@ namespace RenoRator.Controllers
             return View();
         }
 
-        public ActionResult Post()
+        public void populateDropdowns()
         {
-            if (Session["userID"] == null)
-                return RedirectToAction("Login", "User", new { redirectPage = "Post", redirectController = "JobAd" });
-
             _db = new renoRatorDBEntities();
             var priceRanges = from range in _db.PriceRanges1.ToList()
                               select new { priceRangeID = range.priceRangeID, range = range.min + " - " + range.max };
@@ -30,9 +28,20 @@ namespace RenoRator.Controllers
             ViewBag.priceranges = priceranges;
 
             var citiesList = _db.cities.ToList();
-
             SelectList cities = new SelectList(citiesList.ToArray(), "cityID", "city1");
             ViewBag.cities = cities;
+
+            var provinceList = _db.provinces.ToList();
+            SelectList provinces = new SelectList(provinceList.ToArray(), "provinceID", "province1");
+            ViewBag.provinces = provinces;
+        }
+
+        public ActionResult Post()
+        {
+            if (Session["userID"] == null)
+                return RedirectToAction("Login", "User", new { redirectPage = "Post", redirectController = "JobAd" });
+
+            populateDropdowns();        
 
             return View();
         }
@@ -77,14 +86,26 @@ namespace RenoRator.Controllers
             newJobAd.address = new Address();
 
             TryUpdateModel(newJobAd, new string[] { "address.addressLine1", "address.addressLine2", "address.postalCode", "address.cityID" }, form.ToValueProvider());
+            List<string> requiredFields = new List<string>(){"title","address.addressLine1","address.cityID","priceRangeID","description", "targetEndDate"};
+            // check for null fields
+            foreach(string field in requiredFields) 
+            {
+                if (String.IsNullOrEmpty(form[field].Trim()))
+                        ModelState.AddModelError(field, "Field is required!");
+            }
 
+            // validate other fields
+            if(!ValidateFunctions.validPostalCode(form["address.postalCode"]))
+                ModelState.AddModelError("address.postalCode","Postal code is invalid!");
+            if(!ValidateFunctions.validDateFormat(form["targetEndDate"]))
+                ModelState.AddModelError("targetEndDate","Date format is invalid!");
+            
             try
             {
                 newJobAd.address.addressLine1 = form["address.addressLine1"];
                 newJobAd.address.addressLine2 = form["address.addressLine2"];
                 newJobAd.address.postalCode = form["address.postalCode"];
                 newJobAd.address.cityID = Convert.ToInt32(form["address.cityID"]);
-                newJobAd.address.province = "ON";
                 newJobAd.address.country = "Canada";
 
                 newJobAd.userID = (int)Session["userID"];
@@ -93,29 +114,21 @@ namespace RenoRator.Controllers
                 newJobAd.tags = form["tags"].Replace(",", "||");
                 newJobAd.description = form["description"];
                 newJobAd.targetEndDate = Convert.ToDateTime(form["targetEndDate"]);
+                newJobAd.title = form["title"];
             }
-            catch (Exception ex) { }
+            catch{ }
 
+            
 
-            // Validate
-            if (String.IsNullOrEmpty(newJobAd.address.addressLine1))
-                ModelState.AddModelError("address_addressLine1", "First name is required!");
-            if (newJobAd.address.cityID < 1)
-                ModelState.AddModelError("lname", "Last name is required!");
-            if (newJobAd.priceRangeID < 1)
-                ModelState.AddModelError("password", "Password is required!");
-
-
-
-            // If valid, save movie to database
-            if (ModelState.IsValid)
-            {
+            if(ModelState.IsValid) {
                 _db.AddToJobAds1(newJobAd);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             // Otherwise, reshow form
+            TryUpdateModel(newJobAd);
+            populateDropdowns();
             return View(newJobAd);
 
         }
