@@ -15,10 +15,14 @@
 @if (Model.Any())
 {
     <div class="two_column_left">
+        
         @foreach (KeyValuePair<string, int> pair in ViewBag.tags as Dictionary<string, int>)
         {
-            Html.ActionLink(pair.Key, "Ads", new { tag = pair.Key });
-            Html.DisplayText("[" + pair.Value + "]");
+            @Html.ActionLink(pair.Key, "Ads", new { tag = pair.Key });
+            <span>[</span>
+            @pair.Value;
+            <span>]</span>
+            <br />
         }
     </div>
     <div class="two_column_right">
