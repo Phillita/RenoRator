@@ -22,16 +22,16 @@ namespace RenoRator.Controllers
         public void populateDropdowns()
         {
             _db = new renoRatorDBEntities();
-            var priceRanges = from range in _db.PriceRanges1.ToList()
+            var priceRanges = from range in _db.PriceRanges.ToList()
                               select new { priceRangeID = range.priceRangeID, range = range.min + " - " + range.max };
             SelectList priceranges = new SelectList(priceRanges.ToArray(), "priceRangeID", "range");
             ViewBag.priceranges = priceranges;
 
-            var citiesList = _db.cities.ToList();
+            var citiesList = _db.Cities.ToList();
             SelectList cities = new SelectList(citiesList.ToArray(), "cityID", "city1");
             ViewBag.cities = cities;
 
-            var provinceList = _db.provinces.ToList();
+            var provinceList = _db.Provinces.ToList();
             SelectList provinces = new SelectList(provinceList.ToArray(), "provinceID", "province1");
             ViewBag.provinces = provinces;
         }
@@ -52,7 +52,7 @@ namespace RenoRator.Controllers
                 //return RedirectToAction("Login", "User", new { redirectPage = "Post", redirectController = "JobAd" });
 
             _db = new renoRatorDBEntities();
-            var ads = (from JobAds1 in _db.JobAds1 select JobAds1).ToList();
+            var ads = (from JobAds1 in _db.JobAds select JobAds1).ToList();
 
             Dictionary<string, int> tags = new Dictionary<string, int>();
             foreach( var ad in ads ){
@@ -124,7 +124,7 @@ namespace RenoRator.Controllers
             
 
             if(ModelState.IsValid) {
-                _db.AddToJobAds1(newJobAd);
+                _db.AddToJobAds(newJobAd);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -47,7 +47,7 @@ namespace RenoRator.Models
             newUser.salt = salt;
             newUser.password = PasswordFunctions.CreateHash(newUser.password, salt);
 
-            db.AddToUsers1(newUser);
+            db.AddToUsers(newUser);
             db.SaveChanges();
         }
     }

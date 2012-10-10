@@ -113,10 +113,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\RenoRatorDBModel.Designer.cs">
+    <Compile Include="Models\renoRatorDBModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RenoRatorDBModel.edmx</DependentUpon>
+      <DependentUpon>renoRatorDBModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -174,12 +174,6 @@
     <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Models\RenoRatorDBModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>RenoRatorDBModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\JobAd\Post.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
   </ItemGroup>
@@ -203,6 +197,12 @@
       <Project>{B8E7CFB4-D153-48D8-B15F-5D76CC9DD97E}</Project>
       <Name>RenoRatorLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Models\renoRatorDBModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>renoRatorDBModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

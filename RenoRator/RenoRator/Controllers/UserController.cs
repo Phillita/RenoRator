@@ -102,7 +102,7 @@ namespace RenoRator.Controllers
 
         private static int tryLogin(string email, string password) {
             renoRatorDBEntities _db = new renoRatorDBEntities();
-            var user = _db.Users1.Where(u => u.email == email).FirstOrDefault();
+            var user = _db.Users.Where(u => u.email == email).FirstOrDefault();
             if (user != null && user.password == PasswordFunctions.CreateHash(password, user.salt))
                 return user.userID;
             return -1;
