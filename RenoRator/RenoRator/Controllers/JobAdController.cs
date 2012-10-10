@@ -89,7 +89,7 @@ namespace RenoRator.Controllers
             newJobAd.address = new Address();
 
             TryUpdateModel(newJobAd, new string[] { "address.addressLine1", "address.addressLine2", "address.postalCode", "address.cityID" }, form.ToValueProvider());
-            List<string> requiredFields = new List<string>(){"title","address.addressLine1","address.cityID","priceRangeID","description", "targetEndDate"};
+            List<string> requiredFields = new List<string>(){"title","address.addressLine1","address.city.provinceID", "address.cityID","priceRangeID","description", "targetEndDate"};
             // check for null fields
             foreach(string field in requiredFields) 
             {
@@ -111,6 +111,7 @@ namespace RenoRator.Controllers
                 newJobAd.address.cityID = Convert.ToInt32(form["address.cityID"]);
                 newJobAd.address.country = "Canada";
 
+                newJobAd.address.city.provinceID = Convert.ToInt32(form["address.city.provinceID"]);
                 newJobAd.userID = (int)Session["userID"];
                 newJobAd.active = true;
                 newJobAd.priceRangeID = Convert.ToInt32(form["priceRangeID"]);

@@ -40,8 +40,9 @@
             </div>
 
             <div class="form-row">
-                <label>City:</label>
-                @Html.DropDownList("provinceID", ViewBag.provinces as SelectList, "Select a province", new { id = "provinceID" })
+                <label>Province:</label>
+                @Html.ValidationMessageFor(model => model.address.city.provinceID)
+                @Html.DropDownList("address.city.provinceID", ViewBag.provinces as SelectList, "Select a province", new { id = "address.city.provinceID" })
             </div>
             
             <div class="form-row">
