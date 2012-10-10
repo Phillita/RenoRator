@@ -59,13 +59,16 @@ namespace RenoRator.Controllers
                 string[] allTags = ad.tags.Split('|');
                 foreach (string tag in allTags)
                 {
-                    if (!tags.ContainsKey(tag))
+                    if (tag != "")
                     {
-                        tags[tag] = 1;
-                    }
-                    else
-                    {
-                        tags[tag]++;
+                        if (!tags.ContainsKey(tag))
+                        {
+                            tags[tag] = 1;
+                        }
+                        else
+                        {
+                            tags[tag]++;
+                        }
                     }
                 }
             }
