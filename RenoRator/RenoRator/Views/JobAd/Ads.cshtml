@@ -14,26 +14,56 @@
 
 @if (Model.Any())
 {
-    foreach (var item in Model)
-    {
-        <div class="three_column_middle">
-            <input type="hidden" value="@item.address.addressLine1" />
-            <input type="hidden" value="@item.address.postalCode" />
-            <input type="hidden" value="@item.address.province" />
-            <h2>User Name</h2>
-            <p>@Html.DisplayFor(modelItem => item.user.fname) @Html.DisplayFor(modelItem => item.user.lname)</p>
-            <h2>Price Range</h2>
-            <p>@Html.DisplayFor(modelItem => item.pricerange.min) - @Html.DisplayFor(modelItem => item.pricerange.max)</p>
-            <h2>Description</h2>
-            <p>@Html.DisplayFor(modelItem => item.description)</p>
-            <h2>Target End Date</h2>
-            <p>@Html.DisplayFor(modelItem => item.targetEndDate)</p>
-
-            <!--@Html.ActionLink("Edit", "Edit", new { id = item.jobAdID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.jobAdID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.jobAdID })-->
-        </div>
-    }
+    <div class="two_column_left">
+        @foreach (KeyValuePair<string, int> pair in ViewBag.tags as Dictionary<string, int>)
+        {
+            Html.ActionLink(pair.Key, "Ads", new { tag = pair.Key });
+            Html.DisplayText("[" + pair.Value + "]");
+        }
+    </div>
+    <div class="two_column_right">
+        <table class="table_results">
+        @foreach (var item in Model)
+        {
+            <tr class="table_results_row">
+                <td>
+                    <div class="thumbnail thumb_img">
+                    @if (item.gallery != null)
+                    {
+                        foreach (var photo in item.gallery.photos.Take(1))
+                        {
+                            <img style="display:inline-block;" src="@photo.path" alt="@photo.description"/>
+                        }
+                    }
+                    else
+                    {
+                        <img style="display:inline-block;" src="../../public/img/logo.png" alt="ad pic"/>
+                    }
+                    </div>
+                </td>
+                    
+                <td>
+                    <div style="margin:10px;">
+                        <input type="hidden" value="@item.address.addressLine1" />
+                        <input type="hidden" value="@item.address.postalCode" />
+                        @{var title = item.title;}
+                        @Html.ActionLink(title, "Details", new { id = item.jobAdID })
+                        <br />
+                        @Html.DisplayFor(modelItem => item.description)
+                        <br />
+                        Price Range:  @Html.DisplayFor(modelItem => item.pricerange.min) - @Html.DisplayFor(modelItem => item.pricerange.max)
+                        <br />
+                        Target End Date:  @Html.DisplayFor(modelItem => item.targetEndDate)
+                    </div>
+                </td>
+                
+                <!--@Html.ActionLink("Edit", "Edit", new { id = item.jobAdID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.jobAdID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.jobAdID })-->
+            </tr>
+        }
+        </table>
+    </div>
 }
 else
 {
@@ -41,3 +71,14 @@ else
         <p>Sorry, there are no ads availible right now. Try again later.</p>
     </div>
 }
+
+<script type="text/javascript">
+    //$("tr").on("mouseover", function () { $(this).addClass('table_results_row_active'); });
+    $('tr').each(function (index) {
+        $(this).hover(function () {
+            $(this).addClass('table_results_row_active');
+        }, function () {
+            $(this).removeClass('table_results_row_active');
+        });
+    });
+</script>

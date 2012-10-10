@@ -39,10 +39,31 @@ namespace RenoRator.Controllers
 
         public ActionResult Ads()
         {
-            _db = new renoRatorDBEntities();
-            var th = (from JobAds1 in _db.JobAds1 select JobAds1).ToList();
+            //if (Session["userID"] == null)
+                //return RedirectToAction("Login", "User", new { redirectPage = "Post", redirectController = "JobAd" });
 
-            return View(th);
+            _db = new renoRatorDBEntities();
+            var ads = (from JobAds1 in _db.JobAds1 select JobAds1).ToList();
+
+            Dictionary<string, int> tags = new Dictionary<string, int>();
+            foreach( var ad in ads ){
+                string[] allTags = ad.tags.Split('|');
+                foreach (string tag in allTags)
+                {
+                    if (!tags.ContainsKey(tag))
+                    {
+                        tags[tag] = 1;
+                    }
+                    else
+                    {
+                        tags[tag]++;
+                    }
+                }
+            }
+                
+            ViewBag.tags = tags;
+
+            return View(ads);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

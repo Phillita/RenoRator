@@ -47,6 +47,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("renoratordbModel", "reviewhelpful_ibfk_2", "user", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(RenoRator.Models.User), "reviewhelpful", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(RenoRator.Models.ReviewHelpful), true)]
 [assembly: EdmRelationshipAttribute("renoratordbModel", "user_ibfk_1", "usertype", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(RenoRator.Models.UserType), "user", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(RenoRator.Models.User), true)]
 [assembly: EdmRelationshipAttribute("renoratordbModel", "city_id", "city", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(RenoRator.Models.city), "Address", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(RenoRator.Models.Address), true)]
+[assembly: EdmRelationshipAttribute("renoratordbModel", "city_ibfk_1", "province", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(RenoRator.Models.province), "city", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(RenoRator.Models.city), true)]
 
 #endregion
 
@@ -353,6 +354,22 @@ namespace RenoRator.Models
             }
         }
         private ObjectSet<city> _cities;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<province> provinces
+        {
+            get
+            {
+                if ((_provinces == null))
+                {
+                    _provinces = base.CreateObjectSet<province>("provinces");
+                }
+                return _provinces;
+            }
+        }
+        private ObjectSet<province> _provinces;
 
         #endregion
 
@@ -485,6 +502,14 @@ namespace RenoRator.Models
         {
             base.AddObject("cities", city);
         }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the provinces EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToprovinces(province province)
+        {
+            base.AddObject("provinces", province);
+        }
 
         #endregion
 
@@ -510,16 +535,14 @@ namespace RenoRator.Models
         /// <param name="addressID">Initial value of the addressID property.</param>
         /// <param name="addressLine1">Initial value of the addressLine1 property.</param>
         /// <param name="postalCode">Initial value of the postalCode property.</param>
-        /// <param name="province">Initial value of the province property.</param>
         /// <param name="country">Initial value of the country property.</param>
         /// <param name="cityID">Initial value of the cityID property.</param>
-        public static Address CreateAddress(global::System.Int32 addressID, global::System.String addressLine1, global::System.String postalCode, global::System.String province, global::System.String country, global::System.Int32 cityID)
+        public static Address CreateAddress(global::System.Int32 addressID, global::System.String addressLine1, global::System.String postalCode, global::System.String country, global::System.Int32 cityID)
         {
             Address address = new Address();
             address.addressID = addressID;
             address.addressLine1 = addressLine1;
             address.postalCode = postalCode;
-            address.province = province;
             address.country = country;
             address.cityID = cityID;
             return address;
@@ -627,30 +650,6 @@ namespace RenoRator.Models
         private global::System.String _postalCode;
         partial void OnpostalCodeChanging(global::System.String value);
         partial void OnpostalCodeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String province
-        {
-            get
-            {
-                return _province;
-            }
-            set
-            {
-                OnprovinceChanging(value);
-                ReportPropertyChanging("province");
-                _province = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("province");
-                OnprovinceChanged();
-            }
-        }
-        private global::System.String _province;
-        partial void OnprovinceChanging(global::System.String value);
-        partial void OnprovinceChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -828,11 +827,13 @@ namespace RenoRator.Models
         /// </summary>
         /// <param name="cityID">Initial value of the cityID property.</param>
         /// <param name="city1">Initial value of the city1 property.</param>
-        public static city Createcity(global::System.Int32 cityID, global::System.String city1)
+        /// <param name="provinceID">Initial value of the provinceID property.</param>
+        public static city Createcity(global::System.Int32 cityID, global::System.String city1, global::System.Int32 provinceID)
         {
             city city = new city();
             city.cityID = cityID;
             city.city1 = city1;
+            city.provinceID = provinceID;
             return city;
         }
 
@@ -890,6 +891,30 @@ namespace RenoRator.Models
         private global::System.String _city1;
         partial void Oncity1Changing(global::System.String value);
         partial void Oncity1Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 provinceID
+        {
+            get
+            {
+                return _provinceID;
+            }
+            set
+            {
+                OnprovinceIDChanging(value);
+                ReportPropertyChanging("provinceID");
+                _provinceID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("provinceID");
+                OnprovinceIDChanged();
+            }
+        }
+        private global::System.Int32 _provinceID;
+        partial void OnprovinceIDChanging(global::System.Int32 value);
+        partial void OnprovinceIDChanged();
 
         #endregion
 
@@ -914,6 +939,44 @@ namespace RenoRator.Models
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Address>("renoratordbModel.city_id", "Address", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("renoratordbModel", "city_ibfk_1", "province")]
+        public province province
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<province>("renoratordbModel.city_ibfk_1", "province").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<province>("renoratordbModel.city_ibfk_1", "province").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<province> provinceReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<province>("renoratordbModel.city_ibfk_1", "province");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<province>("renoratordbModel.city_ibfk_1", "province", value);
                 }
             }
         }
@@ -1921,6 +1984,30 @@ namespace RenoRator.Models
         private global::System.Boolean _active;
         partial void OnactiveChanging(global::System.Boolean value);
         partial void OnactiveChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                OntitleChanging(value);
+                ReportPropertyChanging("title");
+                _title = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("title");
+                OntitleChanged();
+            }
+        }
+        private global::System.String _title;
+        partial void OntitleChanging(global::System.String value);
+        partial void OntitleChanged();
 
         #endregion
 
@@ -2532,6 +2619,30 @@ namespace RenoRator.Models
         private Nullable<global::System.Int32> _galleryID;
         partial void OngalleryIDChanging(Nullable<global::System.Int32> value);
         partial void OngalleryIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String description
+        {
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                OndescriptionChanging(value);
+                ReportPropertyChanging("description");
+                _description = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("description");
+                OndescriptionChanged();
+            }
+        }
+        private global::System.String _description;
+        partial void OndescriptionChanging(global::System.String value);
+        partial void OndescriptionChanged();
 
         #endregion
 
@@ -2751,6 +2862,115 @@ namespace RenoRator.Models
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<JobAd>("renoratordbModel.jobad_ibfk_3", "jobad", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="renoratordbModel", Name="province")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class province : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new province object.
+        /// </summary>
+        /// <param name="provinceID">Initial value of the provinceID property.</param>
+        /// <param name="province1">Initial value of the province1 property.</param>
+        public static province Createprovince(global::System.Int32 provinceID, global::System.String province1)
+        {
+            province province = new province();
+            province.provinceID = provinceID;
+            province.province1 = province1;
+            return province;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 provinceID
+        {
+            get
+            {
+                return _provinceID;
+            }
+            set
+            {
+                if (_provinceID != value)
+                {
+                    OnprovinceIDChanging(value);
+                    ReportPropertyChanging("provinceID");
+                    _provinceID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("provinceID");
+                    OnprovinceIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _provinceID;
+        partial void OnprovinceIDChanging(global::System.Int32 value);
+        partial void OnprovinceIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String province1
+        {
+            get
+            {
+                return _province1;
+            }
+            set
+            {
+                Onprovince1Changing(value);
+                ReportPropertyChanging("province1");
+                _province1 = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("province1");
+                Onprovince1Changed();
+            }
+        }
+        private global::System.String _province1;
+        partial void Onprovince1Changing(global::System.String value);
+        partial void Onprovince1Changed();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("renoratordbModel", "city_ibfk_1", "city")]
+        public EntityCollection<city> cities
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<city>("renoratordbModel.city_ibfk_1", "city");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<city>("renoratordbModel.city_ibfk_1", "city", value);
                 }
             }
         }

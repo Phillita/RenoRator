@@ -253,3 +253,29 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f4f4f', end
 .hidden {
     display:none;
 }
+
+.table_results {
+    border-collapse: collapse;
+}
+
+.table_results_row{
+    border-top: 1px solid #1f5716;
+    border-bottom: 1px solid #1f5716;
+}
+
+.table_results_row_active{
+    background-color: #1f5717;
+    /*needs a highlight background image*/
+}
+
+.thumbnail {
+    float: left;
+    margin-right: 5px;
+    padding: 0px;
+    border: 1px solid #1f5716;
+}
+
+.thumbnail img {
+    margin: 5px 8px;
+    height: 66px;
+}
